@@ -4,22 +4,18 @@ from contextlib import closing
 with sql.connect('preços.db') as conexao:
     with closing(conexao.cursor()) as cursor:
         
-        while True:
-            nome = input(f'Digite o produto: ')
+        preco1= input(f'Digite o menor preço a listar: ')
+        preco2= input(f'Digite o maior preço a listar: ')
 
-            if not nome:
-                print(f'Fim da consulta!')
-                break
-
-            cursor.execute('SELECT * FROM preços WHERE nome = ?',(nome,))
+        cursor.execute('SELECT * FROM preços WHERE preços >= ? AND preços <= ?',(preco1,preco2))
             
-            x = 0
+        x = 0
 
-            for resultado in cursor.fetchall():
-                print(f'Produto: {resultado[0]}\nPreço: {resultado[1]}')
-                x += 1
+        for resultado in cursor.fetchall():
+            print(f'Produto: {resultado[0]}\nPreço: {resultado[1]}')
+            x += 1
             
-            if x == 0:
-                print("Não encontrado.")
-            else:
-                print(f"{x} produto(s) encontrado(s).")
+        if x == 0:
+            print("Não encontrado.")
+        else:
+            print(f"{x} produto(s) encontrado(s).")
