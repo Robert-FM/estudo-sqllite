@@ -13,6 +13,7 @@ with sql.connect('preços.db') as conexao:
 
         for resultado in cursor.fetchall():
             print(f'Produto: {resultado[0]}\nPreço: {resultado[1]}')
+            print('-' * 20)
             x += 1
             
         if x == 0:
