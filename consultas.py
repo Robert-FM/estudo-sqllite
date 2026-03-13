@@ -4,13 +4,10 @@ from contextlib import closing
 with sql.connect('preços.db') as conexao:
     with closing(conexao.cursor()) as cursor:
         
-        while True:
-            nome = input(f'Digite o produto: ')
-
-            if not nome:
-                print(f'Fim da consulta!')
-                break
-
+        parar = 's'
+        while parar == 's':
+            nome = input(f'Digite o produto: ').strip().capitalize()
+            
             cursor.execute('SELECT * FROM preços WHERE nome = ?',(nome,))
             
             x = 0
@@ -23,3 +20,7 @@ with sql.connect('preços.db') as conexao:
                 print("Não encontrado.")
             else:
                 print(f"{x} produto(s) encontrado(s).")
+
+            parar = input(f'Você deseja continuar a pesquisa [s/n]: ').strip().lower()
+    
+    print(f'Fim da pesquisa!')
